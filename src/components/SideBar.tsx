@@ -9,23 +9,21 @@ interface GenreResponseProps {
   title: string;
 }
 
-export function SideBar() {
-  const [selectedGenreId, setSelectedGenreId] = useState(1);
+interface SidebarProps {
+  handleClickButton: (id: number) => void;
+  selectedGenreId: number;
+}
 
+export function SideBar({ handleClickButton, selectedGenreId }: SidebarProps) {
   const [genres, setGenres] = useState<GenreResponseProps[]>([]);
-
+  
   useEffect(() => {
     api.get<GenreResponseProps[]>('genres').then(response => {
       setGenres(response.data);
     });
   }, []);
 
-  function handleClickButton(id: number) {
-    setSelectedGenreId(id);
-  }
-
   return (
-    <div style={{ display: 'flex', flexDirection: 'row' }}>
       <nav className="sidebar">
         <span>Watch<p>Me</p></span>
 
@@ -40,9 +38,7 @@ export function SideBar() {
             />
           ))}
         </div>
-
       </nav>
-    </div>
   )
   
 }
